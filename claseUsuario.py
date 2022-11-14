@@ -88,8 +88,8 @@ class Usuario:
         del nombre 
         Entrada: N/A
         Salida: asigna la nombre de usuario al atributo usuario a la instancia
-        """  
-        self.usuario = self.nombreDuenno[0][0:2] + self.nombreDuenno[1][0:2]  + self.nombreDuenno[2][0:2] 
+        """
+        self.usuario = self.nombreDuenno[0][0:2].lower() + self.nombreDuenno[1][0:2].lower()  + self.nombreDuenno[2][0:2].lower() 
         return
     
     def asignarContrasenna(self, pContra):
@@ -145,13 +145,22 @@ class Usuario:
         return (self.numCuenta, self.nombreDuenno, self.usuario,
         self.contrasenna, self.direccion, self.pais, self.metodoPago)
     
+# Función Crear usuarios
 
-ianUsuario = Usuario()
-ianUsuario.asignarNumCuenta(1)
-ianUsuario.asignarNombre("Ian", "Coto", "Soto")
-ianUsuario.asignarUsuario()
-ianUsuario.asignarContrasenna(crearContrasenna())
-ianUsuario.asignarDireccion(crearDireccion())
-ianUsuario.asignarPais()
-ianUsuario.asignarMetodoPago()
-print(ianUsuario.obtenerInfo())
+def crearUsuarios(pCant, pUsuariosLista):
+    numCasillero = 1
+    while numCasillero <= pCant:
+        usuario = Usuario()
+        usuario.asignarNumCuenta(numCasillero)
+        usuario.asignarNombre(get_first_name(), get_last_name(), get_last_name())
+        usuario.asignarUsuario() # Comprobar usuario repetido
+        usuario.asignarContrasenna(crearContrasenna())
+        usuario.asignarDireccion(crearDireccion())
+        usuario.asignarPais()
+        usuario.asignarMetodoPago()
+        pUsuariosLista.append(usuario)
+        numCasillero += 1
+    return pUsuariosLista
+
+for i in crearUsuarios(5, []):
+    print(i.obtenerInfo())
