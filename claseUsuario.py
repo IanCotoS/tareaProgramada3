@@ -162,5 +162,5 @@ def crearUsuarios(pCant, pUsuariosLista):
         numCasillero += 1
     return pUsuariosLista
 
-for i in crearUsuarios(5, []):
+for i in crearUsuarios(100, []):
     print(i.obtenerInfo())
