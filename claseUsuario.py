@@ -129,6 +129,14 @@ class Usuario:
         """  
         self.metodoPago = random.randint(1,3)
         return
+
+    def obtenerNomUsuario(self):
+        """
+        Función: retorna el nombre de usuario
+        Entrada: N/A
+        Salida: self.usuario (str)
+        """  
+        return self.usuario
     
     def obtenerInfo(self):
         """
@@ -144,23 +152,50 @@ class Usuario:
         """  
         return (self.numCuenta, self.nombreDuenno, self.usuario,
         self.contrasenna, self.direccion, self.pais, self.metodoPago)
-    
-# Función Crear usuarios
 
-def crearUsuarios(pCant, pUsuariosLista):
+
+# Función Crear usuarios
+def usuarioRepetido(pNomUsuario, pUsuarios):
+    """
+    Función: retorna True si el nombre de usuario se encuentra
+             en el sistema
+    Entrada: pNomUsuario (str)
+             pUsuarios (list)
+    Salida: True/False (bool)
+    """  
+    for usuario in pUsuarios:
+        if usuario.obtenerNomUsuario() == pNomUsuario:
+            return True
+    return False
+
+def crearUsuarios(pCant, pUsuarios):
+    """
+    Función: crea la cantidad de usuarios ingresada y lo retorna en una lista
+             de instancias de la clase Usuarios, considerando que no se deben
+             repetir nombres de usuarios
+    Entrada: pCant (int)
+             pUsuarios (list)
+    Salida: pUsuarios (list)
+    """  
     numCasillero = 1
     while numCasillero <= pCant:
         usuario = Usuario()
-        usuario.asignarNumCuenta(numCasillero)
         usuario.asignarNombre(get_first_name(), get_last_name(), get_last_name())
         usuario.asignarUsuario() # Comprobar usuario repetido
+        if usuarioRepetido(usuario.obtenerNomUsuario(), pUsuarios):
+            continue
+        usuario.asignarNumCuenta(numCasillero)
         usuario.asignarContrasenna(crearContrasenna())
         usuario.asignarDireccion(crearDireccion())
         usuario.asignarPais()
         usuario.asignarMetodoPago()
-        pUsuariosLista.append(usuario)
+        pUsuarios.append(usuario)
         numCasillero += 1
-    return pUsuariosLista
+    return pUsuarios
 
-for i in crearUsuarios(100, []):
-    print(i.obtenerInfo())
+# Pruebas
+listaUsuarios = crearUsuarios(1000, [])
+
+for i in listaUsuarios:
+   print(i.obtenerInfo())
+print(len(listaUsuarios))
