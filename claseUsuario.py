@@ -8,6 +8,7 @@ from names import *
 import random
 import re
 import string
+from tkinter import messagebox
 
 # Variables globales
 listaPaises = ["Belice", "Costa Rica", "El Salvador", 
@@ -20,6 +21,17 @@ def validarDireccion(pDireccion):
         return False
     return True
 """
+def esEntero(pNum):
+    """
+    Funcionalidad: comprueba que sea un número entero
+    Entradas: pNum (int)
+    Salidas: True/False (bool)
+    """
+    try:
+        pNum = int(pNum)
+        return True
+    except:
+        return False
 
 def crearContrasenna():
     """
@@ -193,9 +205,26 @@ def crearUsuarios(pCant, pUsuarios):
         numCasillero += 1
     return pUsuarios
 
-# Pruebas
-listaUsuarios = crearUsuarios(1000, [])
+def crearUsuariosAux(pCant, pUsuarios):
+    """
+    Funcionalidad: valida los datos de entrada
+    Entradas: pCant (str)
+              pUsuarios (list): no necesita validación porque se introduce
+              desde el código, no como entrada
+    Salidas: resultado de crearUsuarios(pCant, pUsuarios) (list)
+    """
+    if not esEntero(pCant):
+        return messagebox.showerror("Cantidad incorrecta", "Debe ingresar un número entero positivo.")
+    elif 0 >= int(pCant) or int(pCant) > 1000:
+        return messagebox.showerror("Cantidad incorrecta", "Debe ingresar un número entero mayor a 0 y menor a 1001")
+    return crearUsuarios(int(pCant), pUsuarios)
 
-for i in listaUsuarios:
-   print(i.obtenerInfo())
-print(len(listaUsuarios))
+# Pruebas
+print(crearUsuariosAux(0, []))
+print(crearUsuariosAux(-1, []))
+print(crearUsuariosAux(1001, []))
+usuarios = crearUsuariosAux(23, [])
+print(crearUsuariosAux("asdc", []))
+
+for i in usuarios:
+    print(i.obtenerInfo())
