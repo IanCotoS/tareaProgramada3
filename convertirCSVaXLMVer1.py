@@ -9,15 +9,28 @@ def obtenerDatosCSV():
     csv_archivo=csv.reader(archivo)
     datos=[]
     for fila in csv_archivo:
-        try:
-            if (fila[2][0]!="E") or (fila[2][0]!="O"):
-                continue
-            else:
-                datos.append(fila)
-        except:
-            continue
+        datos.append(fila)
     archivo.close()
     return datos
 
+def purificarDatos(lista):
+    listanueva=[]
+    for fila in lista:
+        if fila[2]!='':
+            if (fila[2][0]=="E") or (fila[2][0]=="O"):
+                listanueva.append(fila)
+    return listanueva
+"""
+def crearListaObjetos(lista):
+    listaobjetos=[]
+    for objeto in lista:
+        diccionario={}
+        dolar=0 #funcionDolar(objeto[4])
+        diccionario[objeto[2]]=[objeto[3],(objeto[4],dolar)]
+        listaobjetos.append(diccionario)
+    return listaobjetos
+"""  
+
 datos=obtenerDatosCSV()
-print(datos)
+#print(datos[0:20])
+print(crearListaObjetos(purificarDatos(datos)))
