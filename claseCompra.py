@@ -101,9 +101,12 @@ print("Prueba instancia compra")
 compra1 = Compra()
 compra1.asignarNumCompra(1)
 fechaHoy = datetime.now().date()
+
 compra1.asignarFecha(str(fechaHoy.day) + "/" + str(fechaHoy.month) + "/" + str(fechaHoy.year)) # Fecha de hoy en SO
 compra1.asignarNumCuenta(100)
 compra1.asignarDetalle([["OF-1234", random.randint(1,3), 30.21], ["OF-9310", random.randint(1,3), 5.14]])
 compra1.asignarTotal(35.35)
 compra1.asignarTienda()
 print(compra1.obtenerInfo())
+fechaHoy1 = datetime.now()
+print("\nFecha SO\n", fechaHoy1)
