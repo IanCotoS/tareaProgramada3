@@ -1,32 +1,26 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 16/11/2022 08:20 pm
-# Última modificación: 16/11/2022 XX:XX pm
+# Última modificación: 16/11/2022 09:00 pm
 # Versión: 3.10.8
 
 # Importar librerías
 import requests
-import json
 
 # Funciones auxiliares
-def retornarPeticion(pLink):
+
+def conversionMXNtoUSD(pDineroMXN): # Por ahora es una prueba
     """
-    Funcionalidad: se obtiene el código HTML de la página
-    Entradas: pLink (str)
-    Salidas: codHtml (bs4.BeautifulSoup)
+    Funcionalidad: convierte de pesos mexicanos a dólares
+    Entrada: pDineroMXN (float): dinero en pesos mexicanos
+    Salida: dinero en dólares (float)
     """
-    respuesta = requests.get(pLink).text
-    jsonPeticion = json.loads(respuesta)
-    return jsonPeticion
+    response = requests.get(
+        f"https://api.frankfurter.app/latest?amount={pDineroMXN}&from=MXN&to=USD") # from y to para cambiar de exchange
+                                                                                   # con código ISO
+    #print(f'''{pDineroMXN} MXN es {response.json()["rates"]["USD"]} USD''') # Se debe eliminar, solo es
+                                                                            # para mostrar resultados
+    return response.json()["rates"]["USD"] # Conversión
 
-#apiFile = open("api.json")
-#data = json.load(apiFile)
-#apiKey = data["API_KEY"]
-#key = "0WoEeaF1fvAODyVlEgZQk8nPp1AO8pc0"
-#print(retornarPeticion("http://data.fixer.io/api/latest?access_key="+apiKey))
-
-amount = float(input("Enter in the amount of money: "))
-
-response = requests.get(
-    f"https://api.frankfurter.app/latest?amount={amount}&from=MXN&to=USD")
-
-print(f'''{amount} MXN is {response.json()["rates"]["USD"]} USD''')
+# Pruebas
+print(1000,"MXN")
+print(conversionMXNtoUSD(1000),"USD")
