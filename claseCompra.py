@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 16/11/2022 09:35 pm
-# Última modificación: 16/11/2022 09:56 pm
+# Última modificación: 16/11/2022 10:03 pm
 # Versión: 3.10.8
 
 # Importar librerías
@@ -101,7 +101,6 @@ print("Prueba instancia compra")
 compra1 = Compra()
 compra1.asignarNumCompra(1)
 fechaHoy = datetime.now().date()
-
 compra1.asignarFecha(str(fechaHoy.day) + "/" + str(fechaHoy.month) + "/" + str(fechaHoy.year)) # Fecha de hoy en SO
 compra1.asignarNumCuenta(100)
 compra1.asignarDetalle([["OF-1234", random.randint(1,3), 30.21], ["OF-9310", random.randint(1,3), 5.14]])
