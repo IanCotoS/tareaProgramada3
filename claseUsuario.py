@@ -220,6 +220,7 @@ def crearUsuariosAux(pCant, pUsuarios):
     return crearUsuarios(int(pCant), pUsuarios)
 
 # Pruebas
+"""
 print(crearUsuariosAux(0, []))
 print(crearUsuariosAux(-1, []))
 print(crearUsuariosAux(1001, []))
@@ -228,3 +229,4 @@ print(crearUsuariosAux("asdc", []))
 
 for i in usuarios:
     print(i.obtenerInfo())
+"""
