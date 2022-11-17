@@ -1,16 +1,27 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 16/11/2022 09:35 pm
-# Última modificación: 16/11/2022 10:03 pm
+# Última modificación: 17/11/2022 01:30 pm
 # Versión: 3.10.8
 
 # Importar librerías
 import random
 from datetime import datetime # Para obtener la fecha del día
+from claseUsuario import *
 
 # Variables globales
 tienda = ("Amazon", "Ebay", "Rakuten", "ToysRus")
 
 # Funciones auxiliares
+def obtenerListasLlaves(pDicc):
+    """
+    Funcionalidad: obtener llaves de un diccionario como listas
+    Entradas: pDicc (dict)
+    Salidas: listaLlaves (list)
+    """
+    listaLlaves = []
+    for llave in pDicc.keys():
+        listaLlaves.append(llave) 
+    return listaLlaves
 
 # Clase Compra
 class Compra:
@@ -96,16 +107,72 @@ class Compra:
         return (self.numCompra, self.fecha, self.numCuenta, 
         self.detalle, self.total, self.tienda) 
 
-# Prueba
-print("Prueba instancia compra")
-compra1 = Compra()
-compra1.asignarNumCompra(1)
-fechaHoy = datetime.now().date()
-compra1.asignarFecha(str(fechaHoy.day) + "/" + str(fechaHoy.month) + "/" + str(fechaHoy.year)) # Fecha de hoy en SO
-compra1.asignarNumCuenta(100)
-compra1.asignarDetalle([["OF-1234", random.randint(1,3), 30.21], ["OF-9310", random.randint(1,3), 5.14]])
-compra1.asignarTotal(35.35)
-compra1.asignarTienda()
-print(compra1.obtenerInfo())
-fechaHoy1 = datetime.now()
-print("\nFecha SO\n", fechaHoy1)
+
+def crearDetalle(pDiccProductos):
+    """
+    Función: crea el detalle de los productos por compra, con
+             una cantidad aleatoria de entre 1 y 5
+    Entrada: pDiccProductos (dict)
+    Salida: comprasRealizadas (list) 
+            total (float con dos decimales)
+    """ 
+    cantCompras = random.randint(1, 5)
+    codigos = obtenerListasLlaves(pDiccProductos)
+    codigosUsados = []
+    comprasRealizadas = []
+    total = 0.0
+    while len(codigosUsados) < cantCompras:
+        posCod = random.randint(0, len(codigos)-1)
+        codigoAct = codigos[posCod]
+        if codigoAct not in codigosUsados:
+            codigosUsados.append(codigoAct)
+            cantProducto = random.randint(1,3)
+            subtotal = round((pDiccProductos[codigoAct][1][1])*cantProducto, 2) # redondea a dos decimales
+            comprasRealizadas.append([codigoAct, cantProducto, subtotal])
+            total += subtotal
+    return comprasRealizadas, round(total, 2)
+
+def crearCompras(pUsuarios, pDiccProductos, pCompras):
+    """
+    Función: crea la lista de compras con las instancias de
+             Compra
+    Entrada: pUsuarios (list of Usuarios)
+             pDiccProductos (dict)
+             pCompras (list)
+    Salida: pCompras (list) (actualizado)
+    """  
+    for numCompra, usuario in enumerate(pUsuarios):
+        compra = Compra()
+        compra.asignarNumCompra(numCompra+1*10)
+        fechaHoy = datetime.now().date()
+        compra.asignarFecha(str(fechaHoy.day) + "/" + str(fechaHoy.month) + "/" + str(fechaHoy.year)) # Fecha de hoy en SO
+        compra.asignarNumCuenta(usuario.obtenerInfo()[0])
+        comprasLista, total = crearDetalle(pDiccProductos) # Matriz de compras y total
+        compra.asignarDetalle(comprasLista)
+        compra.asignarTotal(total)
+        compra.asignarTienda()
+        pCompras.append(compra)
+    return pCompras
+
+# Pruebas de funciones
+usuarios = crearUsuariosAux(5, [])
+print("\nPruebas:\nUsuarios\n", usuarios, "\nCantidad:", len(usuarios))
+for i in usuarios:
+    print(i.obtenerInfo())
+diccProductos = {"OF-1234":["Secadora", (1000.12, 54.32)], "OF-9310":["Lavadora", (100.12, 5.432)], 
+"OF-5321":["Bola", (153.12, 7.432)], "OF-4312":["Camisa", (573.12, 12.43)], 
+"OF-5343":["Lavadora", (100.12, 5.432)], 
+"OF-9310":["Lavadora", (100.12, 5.432)], 
+"OF-9310":["Lavadora", (100.12, 5.432)],
+"OF-9310":["Lavadora", (100.12, 5.432)], 
+"OF-9310":["Lavadora", (100.12, 5.432)], 
+"OF-9310":["Lavadora", (100.12, 5.432)]}
+compras = crearCompras(usuarios, diccProductos, [])
+print("\nCompras\n", compras, "\nCantidad:", len(compras))
+for i in compras:
+    print(i.obtenerInfo())
+
+# Prueba de fechas:
+fechaHoy = datetime.now()
+print("\nFecha SO\n", fechaHoy)
+
