@@ -107,7 +107,7 @@ class Compra:
         return (self.numCompra, self.fecha, self.numCuenta, 
         self.detalle, self.total, self.tienda) 
 
-
+# Función crearCompras()
 def crearDetalle(pDiccProductos):
     """
     Función: crea el detalle de los productos por compra, con

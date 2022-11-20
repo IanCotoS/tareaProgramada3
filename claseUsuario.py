@@ -166,7 +166,7 @@ class Usuario:
         self.contrasenna, self.direccion, self.pais, self.metodoPago)
 
 
-# Función Crear usuarios
+# Función crearUsuarios()
 def usuarioRepetido(pNomUsuario, pUsuarios):
     """
     Función: retorna True si el nombre de usuario se encuentra
