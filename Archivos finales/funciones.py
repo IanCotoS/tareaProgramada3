@@ -4,12 +4,12 @@
 # Versión: 3.10.8
 
 # Importar librerías
+from datetime import datetime
 import requests
 import random
 import string
 from names import *
 from clases import *
-from validaciones import *
 
 # Funciones
 # Extras
@@ -167,7 +167,7 @@ def crearCompras(pUsuarios, pDiccProductos, pCompras):
         comprasLista, total = crearDetalle(pDiccProductos) # Matriz de compras y total
         compra.asignarDetalle(comprasLista)
         compra.asignarTotal(total)
-        compra.asignarTienda()
+        compra.asignarTienda(random.randint(0,3))
         pCompras.append(compra)
     return pCompras
 

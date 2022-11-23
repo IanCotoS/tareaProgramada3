@@ -4,7 +4,6 @@
 # Versión: 3.10.8
 
 # Importar librerías
-from datetime import datetime
 from tkinter import messagebox
 from funciones import *
 from clases import *

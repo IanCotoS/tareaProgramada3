@@ -221,14 +221,14 @@ class Compra:
         self.total = pTotal
         return
     
-    def asignarTienda(self):
+    def asignarTienda(self, pNumTienda):
         """
         Función: asigna la tienda a la compra
-        Entrada: N/A
+        Entrada: pNumTienda (int): 0 al 3
         Salida: asigna la tienda al atributo tienda de la compra
         (num aleatorio del 0 al 3)
         """  
-        self.tienda = random.randint(0,3)
+        self.tienda = pNumTienda
         return
 
     def obtenerNumCompra(self):
