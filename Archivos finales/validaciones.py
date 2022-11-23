@@ -21,10 +21,13 @@ def crearUsuariosAux(pCant, pUsuarios):
               desde el código, no como entrada
     Salidas: resultado de crearUsuarios(pCant, pUsuarios) (list)
     """
-    if not esEntero(pCant):
+    if len(pUsuarios) != 0:
+        return messagebox.showerror("Usuarios creados", "Los usuarios ya han sido creados antes.")
+    elif not esEntero(pCant):
         return messagebox.showerror("Cantidad incorrecta", "Debe ingresar un número entero positivo.")
     elif 0 >= int(pCant) or int(pCant) > 1000:
-        return messagebox.showerror("Cantidad incorrecta", "Debe ingresar un número entero mayor a 0 y menor a 1001")
+        return messagebox.showerror("Cantidad incorrecta", "Debe ingresar un número entero mayor a 0 y menor a 1001.")
+    messagebox.showinfo("Usuarios generadas", f"Los {pCant} usuarios han sido generados.")
     return crearUsuarios(int(pCant), pUsuarios)
 
 # 3. Generar compras

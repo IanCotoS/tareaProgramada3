@@ -121,7 +121,9 @@ def crearUsuarios(pCant, pUsuarios):
         usuario.asignarPais(random.randint(0,6))
         usuario.asignarMetodoPago(random.randint(1,3))
         pUsuarios.append(usuario)
+        print(usuario.obtenerInfo())
         numCasillero += 1
+    print("Cantidad total:", len(pUsuarios))
     return pUsuarios
 
 # 3. Generar compras
@@ -144,7 +146,7 @@ def crearDetalle(pDiccProductos):
         if codigoAct not in codigosUsados:
             codigosUsados.append(codigoAct)
             cantProducto = random.randint(1,3)
-            subtotal = round((pDiccProductos[codigoAct][1][1])*cantProducto, 2) # redondea a dos decimales
+            subtotal = round(((pDiccProductos[codigoAct][1][1])*cantProducto), 2) # redondea a dos decimales
             comprasRealizadas.append([codigoAct, cantProducto, subtotal])
             total += subtotal
     return comprasRealizadas, round(total, 2)
@@ -169,6 +171,8 @@ def crearCompras(pUsuarios, pDiccProductos, pCompras):
         compra.asignarTotal(total)
         compra.asignarTienda(random.randint(0,3))
         pCompras.append(compra)
+        print(compra.obtenerInfo())
+    print("Cantidad total:", len(pCompras))
     return pCompras
 
 # 4. Generar tracking
