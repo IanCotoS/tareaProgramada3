@@ -10,10 +10,6 @@ import re
 import string
 from tkinter import messagebox
 
-# Variables globales
-listaPaises = ["Belice", "Costa Rica", "El Salvador", 
-"Guatemala", "Honduras", "Nicaragua", "Panama"]
-
 # Funciones auxiliares
 """
 def validarDireccion(pDireccion):
@@ -45,6 +41,16 @@ def crearContrasenna():
     random.choice(string.digits) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + 
     random.choice(string.digits) + random.choice(string.punctuation) + random.choice(string.punctuation))
 
+def retornarPaisStr(pNumPais):
+    listaPaises = ["Belice", "Costa Rica", "El Salvador", 
+    "Guatemala", "Honduras", "Nicaragua", "Panama"]
+    return listaPaises[pNumPais]
+
+def retornarMetPagoStr(pNumMet):
+    listaMetPago = ["Tarjeta de crédito internacional", "Tarjeta de débito internacional",
+    "Pay Pal"]
+    return listaMetPago[pNumMet-1]
+
 def crearDireccion():
     """
     Función: crea una dirección ficticia para los usuarios
@@ -73,6 +79,7 @@ class Usuario:
         self.direccion = ""
         self.pais = 0
         self.metodoPago = 0
+        return
 
     def asignarNumCuenta(self, pNumCuenta):
         """
@@ -122,25 +129,41 @@ class Usuario:
         self.direccion = pDirec
         return
     
-    def asignarPais(self):
+    def asignarPais(self, numPais):
         """
         Función: asigna la dirección al usuario
-        Entrada: N/A
+        Entrada: numPais (int): 0 la 6
         Salida: asigna el número de país al atributo pais al usuario
         (num del 0 al 6)
         """  
-        self.pais = random.randint(0,6)
+        self.pais = numPais
         return
     
-    def asignarMetodoPago(self):
+    def asignarMetodoPago(self, numMetPago):
         """
         Función: asignar el método de pago al usuario
-        Entrada: N/A
+        Entrada: numMetPago (int): 1 al 3
         Salida: asigna el número de método de pago al atributo metodoPago
         al usuario
         """  
-        self.metodoPago = random.randint(1,3)
+        self.metodoPago = numMetPago
         return
+
+    def obtenerNumCuenta(self):
+        """
+        Función: retorna el número de cuenta del usuario
+        Entrada: N/A
+        Salida: self.numCuenta (int)
+        """  
+        return self.numCuenta
+
+    def obtenerNomDuenno(self):
+        """
+        Función: retorna el nombre de usuario de la persona
+        Entrada: N/A
+        Salida: self.nombreDuenno (tuple)
+        """  
+        return self.nombreDuenno
 
     def obtenerNomUsuario(self):
         """
@@ -149,6 +172,38 @@ class Usuario:
         Salida: self.usuario (str)
         """  
         return self.usuario
+
+    def obtenerContrasenna(self):
+        """
+        Función: retorna la contraseña del usuario
+        Entrada: N/A
+        Salida: self.contrasenna (str)
+        """  
+        return self.contrasenna
+
+    def obtenerDireccion(self):
+        """
+        Función: retorna la dirección del usuario
+        Entrada: N/A
+        Salida: self.direccion (str)
+        """  
+        return self.direccion
+
+    def obtenerPais(self):
+        """
+        Función: retorna el número del país del usuario
+        Entrada: N/A
+        Salida: self.pais (int)
+        """  
+        return self.pais
+
+    def obtenerMetPago(self):
+        """
+        Función: retorna el número del método de pago del usuario
+        Entrada: N/A
+        Salida: self.metodoPago (int)
+        """  
+        return self.metodoPago
     
     def obtenerInfo(self):
         """
@@ -199,8 +254,8 @@ def crearUsuarios(pCant, pUsuarios):
         usuario.asignarNumCuenta(numCasillero)
         usuario.asignarContrasenna(crearContrasenna())
         usuario.asignarDireccion(crearDireccion())
-        usuario.asignarPais()
-        usuario.asignarMetodoPago()
+        usuario.asignarPais(random.randint(0,6))
+        usuario.asignarMetodoPago(random.randint(1,3))
         pUsuarios.append(usuario)
         numCasillero += 1
     return pUsuarios
