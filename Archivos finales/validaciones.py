@@ -45,7 +45,6 @@ def crearComprasAux(pUsuarios, pDiccProductos, pCompras):
     messagebox.showinfo("Compras generadas", "Las compras se han generado.")
     return crearCompras(pUsuarios, pDiccProductos, pCompras)
 
-
 # 4. Generar tracking
 """Agregarla en caso de necesitar"""
 
