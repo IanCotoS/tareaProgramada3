@@ -17,8 +17,16 @@ def cambioMXNtoUSD():
     response = requests.get(
         f"https://api.frankfurter.app/latest?amount=1&from=MXN&to=USD") # from y to para cambiar de exchange
                                                                                    # con código ISO
-                                                                            # para mostrar resultados
     return response.json()["rates"]["USD"] # Conversión
+
+def cambioUSDtoCRC():
+    """
+    Funcionalidad: cambio actual del USD a CRC
+    Entrada: N/A
+    Salida: cambio de un dólar a colón (float)
+    """
+    response = requests.get("http://data.fixer.io/api/latest?access_key=7370ff2962d49abefc56c32f5bc74aa8")
+    return response.json()['rates']['CRC']/response.json()['rates']['USD']
 
 # Pruebas
 """
@@ -26,4 +34,5 @@ usdCambio = cambioMXNtoUSD()
 for cant in range(1, 10000):
     print(cant, "MXN")
     print(cant*usdCambio,"USD")
+print(cambioUSDtoCRC())
 """
