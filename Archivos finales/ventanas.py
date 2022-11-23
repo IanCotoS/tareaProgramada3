@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 23/11/2022 10:40 am
-# Última modificación: 23/11/2022 12:20 md
+# Última modificación: 23/11/2022 01:09 pd
 # Versión: 3.10.8
 
 # Importar librerías
@@ -86,13 +86,97 @@ def bloqueoGenerarCompras(pUsuarios, pDiccProductos, pCompras):
     """
     if len(pUsuarios) == 0:
         return messagebox.showerror("Usuarios vacíos", "No se han generado los usuarios.")
-    messagebox.showinfo("Compras generadas", "Las compras han sido generados.")
+    messagebox.showinfo("Compras generadas", "Las compras han sido generadas.")
     return crearCompras(pUsuarios, pDiccProductos, pCompras)
 
 # 4. Generar tracking
+def bloqueoGenerarTracking(pCompras, pTracking):
+    """
+    Funcionalidad: bloqueo botón 3 si no se han importado los usuarios
+    Entrada: ventanaMain (CTK) 
+    pUsuarios (list)
+    pCompras (list)
+    Salida: generarUsuariosVent(ventanaMain, pUsuarios)
+    """
+    if len(pCompras) == 0:
+        return messagebox.showerror("Compras vacías", "No se han generado las compras.")
+    messagebox.showinfo("Tracking generado", "El tracking ha sido generado.")
+    return pTracking.append(1)
 
 # 5. Reportes
-# Hacer la misma lógica anterior
+# Hacer la misma lógica 
+def devuelveReporte(ventanaMain, pOpcion):
+    if pOpcion == 0:
+        return #reporteVisitanteVent(visitantes, ventanaMain)
+    elif pOpcion == 1:
+        messagebox.showinfo("Reporte creado", 
+        "El reporte estadísticas de astrónomos ha sido creado.")
+        return #reporteStatsAstros(visitantes, diccAstros)
+    elif pOpcion == 2:
+        messagebox.showinfo("Reporte creado", 
+        "El reporte biblioteca digital ha sido creado.")
+        return #reporteBiblioteca(visitantes)
+    elif pOpcion == 3:
+        return #reporteAstrosRangoVent(diccAstros, ventanaMain)
+    else:
+        return ""
+
+def obtenerOpcReportes(pReportes, pOpcion):
+    return pReportes.index(pOpcion)
+
+def reportesVent(ventanaMain, pProductos, pUsuarios, pCompras, pTracking):
+    """
+    Funcionalidad: ventana con las opciones de reportes para crearlos
+    Entrada: ventanaMain (CTK)
+    Salida: devuelveReporte(cambiarOpcionInt(opcionReportes.get()), ventanaMain) (HTML)
+    """
+    reportesVent = ctk.CTkToplevel(ventanaMain)
+    reportesVent.geometry("400x200")
+    reportesVent.title("Reportes")
+    reportesTipos = ["Listar casilleros", "Productos comprados por casillero", 
+    "Tracking de una compra", "Tracking por medio", "Entregas"]
+    titulo = ctk.CTkLabel(reportesVent, text="Reportes HTML", text_font=fuenteTitulo)
+    titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+    subTitulo = ctk.CTkLabel(reportesVent, 
+    text="Seleccione el reporte que quiere obtener",
+    text_font=fuenteBotones)
+    subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
+    opcionReportes = ctk.StringVar(value="Entregas")
+    opcionesSeleccion = ctk.CTkComboBox(master=reportesVent,
+                                width=200, height=32,
+                                values=reportesTipos,
+                                variable=opcionReportes)
+    opcionesSeleccion.place(relx=0.50, rely=0.4, anchor=tk.CENTER)
+    botonReporte = ctk.CTkButton(master=reportesVent,
+                                 width=120,
+                                 height=32,
+                                 corner_radius=8,
+                                 fg_color="grey",
+                                 text_font=fuenteBotones,
+                                 text="Crear",
+                                 command=lambda: print(obtenerOpcReportes(reportesTipos, opcionReportes.get())))#devuelveReporte(obtenerOpcReportes(opcionReportes.get()), ventanaMain))
+    botonReporte.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
+    botonSalir = ctk.CTkButton(master=reportesVent,
+                                 width=120,
+                                 height=32,
+                                 corner_radius=8,
+                                 fg_color="grey",
+                                 text_font=fuenteBotones,
+                                 text="Regresar",
+                                 command=reportesVent.destroy)
+    botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
+
+def bloqueoReportes(ventanaMain, pProductos, pUsuarios, pCompras, pTracking):
+    """
+    Funcionalidad: bloqueo botón 3 si no se han importado los usuarios
+    Entrada: ventanaMain (CTK) 
+    pUsuarios (list)
+    pCompras (list)
+    Salida: generarUsuariosVent(ventanaMain, pUsuarios)
+    """
+    if len(pTracking) == 0:
+        return messagebox.showerror("Tracking vacíos", "No se han generado el tracking de las compras.")
+    return reportesVent(ventanaMain, pProductos, pUsuarios, pCompras, pTracking)
 
 # Ventana menú
 def menuVentana():
@@ -167,7 +251,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=fuenteBotonesMenu,
                                  text="4. Tracking",
-                                 command=lambda: print(4))
+                                 command=lambda: bloqueoGenerarTracking(compras, tracking))
     boton4.grid(row = 4, column=1, padx=5, pady=5, ipadx=15, ipady=10)
     boton5 = ctk.CTkButton(master=app,
                                  width=120,
@@ -176,7 +260,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=fuenteBotonesMenu,
                                  text="5. Reportes",
-                                 command=lambda: print(5))
+                                 command=lambda: bloqueoReportes(app, productos, usuarios, compras, tracking))
     boton5.grid(row = 5, column=0, padx=5, pady=5, ipadx=15, ipady=15)
     boton6 = ctk.CTkButton(master=app,
                                  width=120,
