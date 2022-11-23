@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 13/11/2022 07:45 pm
-# Última modificación: 13/11/2022 09:05 pm
+# Última modificación: 22/11/2022 09:30 pm
 # Versión: 3.10.8
 
 # Importar libreías

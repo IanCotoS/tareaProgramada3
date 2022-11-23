@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 20/11/2022 02:30 pm
-# Última modificación: 20/11/2022 XX:XX pm
+# Última modificación: 22/11/2022 09:30 pm
 # Versión: 3.10.8
 
 # Importar librerías
@@ -41,11 +41,13 @@ def reporteCasilleros(pUsuarios):
     strTabla += "</table></html>"
     return crearArchivoHtml("Reporte casilleros AeroTEC", strTabla)
 
-usuarios = crearUsuariosAux(10, [])
+# Productos por casillero
 
+
+# Pruebas
+"""
+usuarios = crearUsuariosAux(10, [])
 for i in usuarios:
     print(i.obtenerInfo())
-
 reporteCasilleros(usuarios)
-# Productos
-
+"""
