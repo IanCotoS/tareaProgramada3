@@ -31,6 +31,20 @@ def crearUsuariosAux(pCant, pUsuarios):
     return crearUsuarios(int(pCant), pUsuarios)
 
 # 3. Generar compras
+def crearComprasAux(pUsuarios, pDiccProductos, pCompras):
+    """
+    Funcionalidad: valida los datos de entrada
+    Entradas: pCompras (list)
+              pDiccProductos (list)
+              pUsuarios (list): no necesita validación porque se introduce
+              desde el código, no como entrada
+    Salidas: resultado de crearUsuarios(pCant, pUsuarios) (list)
+    """
+    if len(pCompras) != 0:
+        return messagebox.showwarning("Compras ya existen", "Las compras ya habían sido generadas anteriormente.")
+    messagebox.showinfo("Compras generadas", "Las compras se han generado.")
+    return crearCompras(pUsuarios, pDiccProductos, pCompras)
+
 
 # 4. Generar tracking
 """Agregarla en caso de necesitar"""

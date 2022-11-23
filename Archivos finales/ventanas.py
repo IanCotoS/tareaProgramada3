@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 23/11/2022 10:40 am
-# Última modificación: 23/11/2022 01:09 pd
+# Última modificación: 23/11/2022 03:40 pm
 # Versión: 3.10.8
 
 # Importar librerías
@@ -79,37 +79,36 @@ def bloqueoGenerarUsuarios(ventanaMain, pUsuarios, pProductos):
 def bloqueoGenerarCompras(pUsuarios, pDiccProductos, pCompras):
     """
     Funcionalidad: bloqueo botón 3 si no se han importado los usuarios
-    Entrada: ventanaMain (CTK) 
-    pUsuarios (list)
+    Entrada: pUsuarios (list)
+    pDiccProductos (dict)
     pCompras (list)
-    Salida: generarUsuariosVent(ventanaMain, pUsuarios)
+    Salida: crearCompras(pUsuarios, pDiccProductos, pCompras) (act en list compras)
     """
     if len(pUsuarios) == 0:
         return messagebox.showerror("Usuarios vacíos", "No se han generado los usuarios.")
-    messagebox.showinfo("Compras generadas", "Las compras han sido generadas.")
-    return crearCompras(pUsuarios, pDiccProductos, pCompras)
+    return crearComprasAux(pUsuarios, pDiccProductos, pCompras)
 
 # 4. Generar tracking
 def bloqueoGenerarTracking(pCompras, pTracking):
     """
-    Funcionalidad: bloqueo botón 3 si no se han importado los usuarios
-    Entrada: ventanaMain (CTK) 
-    pUsuarios (list)
+    Funcionalidad: bloqueo botón 3 si no se han importado las compras
+    Entrada: pTracking (list)
     pCompras (list)
-    Salida: generarUsuariosVent(ventanaMain, pUsuarios)
+    Salida: 
     """
     if len(pCompras) == 0:
         return messagebox.showerror("Compras vacías", "No se han generado las compras.")
     messagebox.showinfo("Tracking generado", "El tracking ha sido generado.")
-    return pTracking.append(1)
+    return pTracking.append(1) # Poner la función
 
 # 5. Reportes
 def reporteProdCasilleroVent(ventanaMain, pProductos, pCompras):
     """
-    Funcionalidad: ser la ventana que permite generar usuarios
+    Funcionalidad: ser la ventana que permite los reportes de productos por casillero
     Entrada: ventanaMain (CTK)
-    pUsuarios (list)
-    Salida: genera usuarios / mensaje retroalimentación
+    pProductos (dict)
+    pCompras (compras)
+    Salida: genera reporte productos por casillero / mensaje retroalimentación
     """
     reporteProdCasilleroVent = ctk.CTkToplevel(ventanaMain)
     reporteProdCasilleroVent.geometry("400x200")
@@ -148,6 +147,16 @@ def reporteProdCasilleroVent(ventanaMain, pProductos, pCompras):
     botonSalir.place(relx=0.7, rely=0.75, anchor=tk.CENTER)
 
 def devuelveReporte(ventanaMain, pOpcion, pProductos, pUsuarios, pCompras, pTracking):
+    """
+    Funcionalidad: devuelve el reporte o ventana de acuerdo a opción
+    Entrada: ventanaMain (CTK)
+    pOpcion (int) 
+    pProductos (dict) 
+    pUsuarios (list) 
+    pCompras (list) 
+    pTracking (list)
+    Salida: genera reporte o devuelve ventana para generarlo / mensaje retroalimentación
+    """
     if pOpcion == 0:
         messagebox.showinfo("Reporte creado", 
         "El reporte de los casilleros ha sido creado.")
@@ -162,13 +171,25 @@ def devuelveReporte(ventanaMain, pOpcion, pProductos, pUsuarios, pCompras, pTrac
         return print(4) # Agregar función reporte o ventana
 
 def obtenerOpcReportes(pReportes, pOpcion):
+    """
+    Funcionalidad: devuelve la posición en pReportes de pOpcion
+    Entrada: pReportes (list)
+    pOpcion (int) 
+    Salida: posición de pOpcion (int)
+    """
     return pReportes.index(pOpcion)
 
 def reportesVent(ventanaMain, pProductos, pUsuarios, pCompras, pTracking):
     """
-    Funcionalidad: ventana con las opciones de reportes para crearlos
+    Funcionalidad: ventana para los reportes
     Entrada: ventanaMain (CTK)
-    Salida: devuelveReporte(cambiarOpcionInt(opcionReportes.get()), ventanaMain) (HTML)
+    pOpcion (int) 
+    pProductos (dict) 
+    pUsuarios (list) 
+    pCompras (list) 
+    pTracking (list)
+    Salida: genera reporte o devuelve ventana para generarlo con la función 
+            / mensaje retroalimentación
     """
     reportesVent = ctk.CTkToplevel(ventanaMain)
     reportesVent.geometry("400x200")
@@ -193,7 +214,7 @@ def reportesVent(ventanaMain, pProductos, pUsuarios, pCompras, pTracking):
                                  corner_radius=8,
                                  fg_color="grey",
                                  text_font=fuenteBotones,
-                                 text="Crear",
+                                 text="Crear / Ir",
                                  command=lambda: 
                                  devuelveReporte(ventanaMain, obtenerOpcReportes(reportesTipos, 
                                  opcionReportes.get()), pProductos, pUsuarios, pCompras, pTracking))
@@ -210,11 +231,13 @@ def reportesVent(ventanaMain, pProductos, pUsuarios, pCompras, pTracking):
 
 def bloqueoReportes(ventanaMain, pProductos, pUsuarios, pCompras, pTracking):
     """
-    Funcionalidad: bloqueo botón 3 si no se han importado los usuarios
-    Entrada: ventanaMain (CTK) 
-    pUsuarios (list)
-    pCompras (list)
-    Salida: generarUsuariosVent(ventanaMain, pUsuarios)
+    Funcionalidad: bloqueo botón 5 si no se han generado los tracking
+    Entrada: ventanaMain (CTK)
+    pProductos (dict) 
+    pUsuarios (list) 
+    pCompras (list) 
+    pTracking (list)
+    Salida: reportesVent(ventanaMain, pProductos, pUsuarios, pCompras, pTracking) (TopLevel())
     """
     if len(pTracking) == 0:
         return messagebox.showerror("Tracking vacíos", "No se han generado el tracking de las compras.")
@@ -238,7 +261,7 @@ def menuVentana():
 "OF-9310":["Lavadora", (100.12, 5.432)],
 "OF-9310":["Lavadora", (100.12, 5.432)], 
 "OF-9310":["Lavadora", (100.12, 5.432)], 
-"OF-9310":["Lavadora", (100.12, 5.432)]} # Variables a usar
+"OF-9310":["Lavadora", (100.12, 5.432)]} # Debe estar vacío y usarse para la primer función
     usuarios = []
     compras = []
     tracking = []
