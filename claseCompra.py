@@ -37,6 +37,7 @@ class Compra:
         self.detalle = []
         self.total = 0.0
         self.tienda = 0
+        return
 
     def asignarNumCompra(self, pNumCompra):
         """
@@ -92,6 +93,54 @@ class Compra:
         """  
         self.tienda = random.randint(0,3)
         return
+
+    def obtenerNumCompra(self):
+        """
+        Función: retorna el número de la compra
+        Entrada: N/A
+        Salida: self.numCompra (int)
+        """  
+        return self.numCompra
+
+    def obtenerFecha(self):
+        """
+        Función: retorna la fecha de la compra
+        Entrada: N/A
+        Salida: self.fecha (str)
+        """  
+        return self.fecha
+    
+    def obtenerNumCuenta(self):
+        """
+        Función: retorna el número de cuenta de la compra
+        Entrada: N/A
+        Salida: self.numCuenta (int)
+        """  
+        return self.numCuenta
+
+    def obtenerDetalle(self):
+        """
+        Función: retorna el detalle de la compra
+        Entrada: N/A
+        Salida: self.detalle (list)
+        """  
+        return self.detalle
+
+    def obtenerTotal(self):
+        """
+        Función: retorna el total a pagar de la compra
+        Entrada: N/A
+        Salida: self.total (float)
+        """  
+        return self.total
+    
+    def obtenerTienda(self):
+        """
+        Función: retorna el número de tienda de la compra
+        Entrada: N/A
+        Salida: self.tienda (int)
+        """  
+        return self.tienda
     
     def obtenerInfo(self):
         """
@@ -146,7 +195,7 @@ def crearCompras(pUsuarios, pDiccProductos, pCompras):
         compra.asignarNumCompra(numCompra+1*10)
         fechaHoy = datetime.now().date()
         compra.asignarFecha(str(fechaHoy.day) + "/" + str(fechaHoy.month) + "/" + str(fechaHoy.year)) # Fecha de hoy en SO
-        compra.asignarNumCuenta(usuario.obtenerInfo()[0])
+        compra.asignarNumCuenta(usuario.obtenerNumCuenta())
         comprasLista, total = crearDetalle(pDiccProductos) # Matriz de compras y total
         compra.asignarDetalle(comprasLista)
         compra.asignarTotal(total)
@@ -155,6 +204,7 @@ def crearCompras(pUsuarios, pDiccProductos, pCompras):
     return pCompras
 
 # Pruebas de funciones
+"""
 usuarios = crearUsuariosAux(5, [])
 print("\nPruebas:\nUsuarios\n", usuarios, "\nCantidad:", len(usuarios))
 for i in usuarios:
@@ -175,4 +225,4 @@ for i in compras:
 # Prueba de fechas:
 fechaHoy = datetime.now()
 print("\nFecha SO\n", fechaHoy)
-
+"""
