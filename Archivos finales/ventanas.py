@@ -1,12 +1,14 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 23/11/2022 10:40 am
-# Última modificación: 23/11/2022 11:00 am
+# Última modificación: 23/11/2022 11:35 am
 # Versión: 3.10.8
 
 # Importar librerías
 import tkinter as tk
 import customtkinter as ctk
 from tkinter import messagebox
+from funciones import *
+from validaciones import *
 
 # Fuentes
 fuenteBotones = ("Helvetica", 10)
