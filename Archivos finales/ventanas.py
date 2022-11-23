@@ -104,22 +104,62 @@ def bloqueoGenerarTracking(pCompras, pTracking):
     return pTracking.append(1)
 
 # 5. Reportes
-# Hacer la misma lógica 
-def devuelveReporte(ventanaMain, pOpcion):
+def reporteProdCasilleroVent(ventanaMain, pProductos, pCompras):
+    """
+    Funcionalidad: ser la ventana que permite generar usuarios
+    Entrada: ventanaMain (CTK)
+    pUsuarios (list)
+    Salida: genera usuarios / mensaje retroalimentación
+    """
+    reporteProdCasilleroVent = ctk.CTkToplevel(ventanaMain)
+    reporteProdCasilleroVent.geometry("400x200")
+    reporteProdCasilleroVent.title("Reporte productos casillero")
+    titulo = ctk.CTkLabel(reporteProdCasilleroVent, text="Reporte productos casillero", 
+    text_font=fuenteTitulo)
+    titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+    subTitulo = ctk.CTkLabel(reporteProdCasilleroVent, 
+    text="Ingrese el número del casillero (mayor o igual que 10):",
+    text_font=fuenteBotones)
+    subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
+    cantEntry = ctk.CTkEntry(master=reporteProdCasilleroVent,
+                               placeholder_text="Ej: 11",
+                               width=125,
+                               height=35,
+                               border_width=2,
+                               corner_radius=10)
+    cantEntry.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
+    botonCrear = ctk.CTkButton(master=reporteProdCasilleroVent,
+                                 width=120,
+                                 height=32,
+                                 corner_radius=8,
+                                 fg_color="grey",
+                                 text_font=fuenteBotones,
+                                 text="Crear",
+                                 command=lambda: reportesProductosAux(cantEntry.get(), pCompras, pProductos))
+    botonCrear.place(relx=0.30, rely=0.75, anchor=tk.CENTER)
+    botonSalir = ctk.CTkButton(master=reporteProdCasilleroVent,
+                                 width=120,
+                                 height=32,
+                                 corner_radius=8,
+                                 fg_color="grey",
+                                 text_font=fuenteBotones,
+                                 text="Regresar",
+                                 command=lambda: reporteProdCasilleroVent.destroy()) # Sale de la ventana
+    botonSalir.place(relx=0.7, rely=0.75, anchor=tk.CENTER)
+
+def devuelveReporte(ventanaMain, pOpcion, pProductos, pUsuarios, pCompras, pTracking):
     if pOpcion == 0:
-        return #reporteVisitanteVent(visitantes, ventanaMain)
+        messagebox.showinfo("Reporte creado", 
+        "El reporte de los casilleros ha sido creado.")
+        return reporteCasilleros(pUsuarios)
     elif pOpcion == 1:
-        messagebox.showinfo("Reporte creado", 
-        "El reporte estadísticas de astrónomos ha sido creado.")
-        return #reporteStatsAstros(visitantes, diccAstros)
+        return reporteProdCasilleroVent(ventanaMain, pProductos, pCompras)
     elif pOpcion == 2:
-        messagebox.showinfo("Reporte creado", 
-        "El reporte biblioteca digital ha sido creado.")
-        return #reporteBiblioteca(visitantes)
+        return print(2) # Agregar función reporte o ventana
     elif pOpcion == 3:
-        return #reporteAstrosRangoVent(diccAstros, ventanaMain)
+        return print(3) # Agregar función reporte o ventana
     else:
-        return ""
+        return print(4) # Agregar función reporte o ventana
 
 def obtenerOpcReportes(pReportes, pOpcion):
     return pReportes.index(pOpcion)
@@ -154,7 +194,9 @@ def reportesVent(ventanaMain, pProductos, pUsuarios, pCompras, pTracking):
                                  fg_color="grey",
                                  text_font=fuenteBotones,
                                  text="Crear",
-                                 command=lambda: print(obtenerOpcReportes(reportesTipos, opcionReportes.get())))#devuelveReporte(obtenerOpcReportes(opcionReportes.get()), ventanaMain))
+                                 command=lambda: 
+                                 devuelveReporte(ventanaMain, obtenerOpcReportes(reportesTipos, 
+                                 opcionReportes.get()), pProductos, pUsuarios, pCompras, pTracking))
     botonReporte.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
     botonSalir = ctk.CTkButton(master=reportesVent,
                                  width=120,

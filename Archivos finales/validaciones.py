@@ -51,6 +51,8 @@ def reportesProductosAux(pCasillero, pCompras, pProductos):
             "de acuerdo a la cantidad de casilleros disponibles.")
     elif 0 >= int(pCasillero) or int(pCasillero) > len(pCompras):
         return messagebox.showerror("Casillero no encontrado", "Ingrese un casillero existente.")
+    messagebox.showinfo("Reporte creado", "El reporte de los productos en el casillero " + 
+    pCasillero + " ha sido creado.")
     return reportesProductos(int(pCasillero), pCompras, pProductos)
 
 # Tracking de una compra

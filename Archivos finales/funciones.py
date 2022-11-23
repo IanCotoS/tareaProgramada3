@@ -250,7 +250,7 @@ def obtenerProdCasillero(pCasillero, pCompras, pProductos):
     for compra in prodsCasillero:
         for codigo, datos in pProductos.items():
             if compra[0] == codigo:
-                productos.append((datos[0], datos[1][0], round(datos[1][0]*valorColon, 2)))
+                productos.append((datos[0], datos[1][1], round(datos[1][1]*valorColon, 2)))
                 break
     return productos
 
