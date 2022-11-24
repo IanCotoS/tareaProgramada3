@@ -7,9 +7,9 @@ import csv
 import xml.etree.ElementTree as ET
 def obtenerDatosCSV():
     """
-    F:
-    E:
-    S:
+    F:Obtiene los datos del archivo.csv y los guarda los datos por fila en una matriz.
+    E:N/A
+    S:La matriz con todos los datos del documento csv
     """
     archivo= open("HojaParaTP3.csv", encoding="utf8")
     csv_archivo=csv.reader(archivo)
@@ -21,14 +21,14 @@ def obtenerDatosCSV():
 
 def purificarDatos(lista):
     """
-    F:
-    E:
-    S:
+    F:Funcion que se encarga de purificar los datos provenientes de la matriz creada
+    E:lista (list); lista con todos los datos del archivo 
+    S:listanueva (list); Lista con los valores corregidos 
     """
     listanueva=[]
     for fila in lista:
         if fila[2]!='':
-            if (fila[2][0]=="E") or (fila[2][0]=="O"):
+            if (fila[2][0]=="E") or (fila[2][0]=="O") or (fila[2][0]=="H"):
                 fila[3]=fila[3].replace("&", "y")
                 fila[4]=fila[4].replace(",", "")
                 listanueva.append(fila)
@@ -36,9 +36,9 @@ def purificarDatos(lista):
 
 def convertirDatosXML(lista):
     """
-    F:
-    E:
-    S:
+    F:Funcion que acomoda los datos purificados en un formato xml.
+    E:lista(list)
+    S:stringdatos(str)
     """
     stringdatos="""
                     <almacen>"""
@@ -68,9 +68,9 @@ def crearArchivoXML(pNombre, pInfo):
 
 def leerArchivoXML(pnombre):
     """
-    F:
-    E:
-    S:
+    F:Funcion que abre el archivo .xml y obtiene los datos correspondientes.
+    E:pnombre(str); nombre del archivo
+    S:diccionario (dic); el diccionario con todos los datos del documento.xml
     """
     doc = open(pnombre + ".xml", encoding="utf-8")
     almacen = ET.fromstring(doc.read())

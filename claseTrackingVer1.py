@@ -6,6 +6,12 @@
 
 #Clase
 class Tracking:
+    """
+    F:Es la clase para objetos de tipo tracking
+    E: Los datos que se requieren son: nTracking (int), nCompra(int), nFactura(str), nEstado(int), nMedio(int), nCosto(float)
+    S: N/A
+    
+    """
     def __init__(self, nTracking, nCompra, nFactura, nEstado, nMedio, nCosto ):
         self.tracking=nTracking
         self.compra=nCompra
