@@ -58,32 +58,22 @@ def reportesMedio(listatracking, listacompras, medio):
     Entradas: 
     Salidas: 
     """
+    strTotal="<html>\n<head>\n<title> \nReporte por medios \n"
     for i in range (0,3):
-        print("AUXIOLOOOOOOO")
-        strTotal="<html>\n<head>\n<title> \nReporte por medios \n"
-
         strTabla = "</title>\n</head><body><h1>Medio: "+medio[i]+"</h1> \
                     <table><tr><th>Número de tracking</th><th>Número de compra</th><th>Código de compra</th> \
                         <th>Cantidad</th><th>Costo en dólares</th><th>Costo en colones</th></tr>"
         for tracking in listatracking:
             if tracking.getMedio()==i:
-                print("Holi0",medio[i])
                 numCompra=tracking.getCompra()
                 numTracking=tracking.getTracking()
                 codigoCompra=tracking.getCodigo()
                 for compra in listacompras:
-                    print("holi1",medio[i])
-                    print(compra.obtenerNumCompra(), numCompra)
                     if numCompra==compra.obtenerNumCompra():
                         detalle=compra.obtenerDetalle()
-                        print(detalle)
                         for item in detalle:
-                            print("holi2",medio[i])
-                            print(codigoCompra, item[0])
                             if codigoCompra==item[0]:
-                                print("holi extreme",medio[i])
                                 cantidad=item[1]
-                print("holi3",medio[i])
                 costo=tracking.getCosto()
                 strElementos = ("<tr><td>"+str(numTracking)+"</td><td>"+
                     str(numCompra)+"</td><td>"+codigoCompra+"</td><td>"+str(cantidad)+"</td><td>"
@@ -92,8 +82,36 @@ def reportesMedio(listatracking, listacompras, medio):
         strTabla += "</table>"
         strTotal+=strTabla
     strTotal+="</html>"
-    print("")
     return crearArchivoHtml("Reporte Medios", strTotal)
+
+def reportesEntregas(listatracking, listacompras):
+    """
+    Funcionalidad: 
+    Entradas: 
+    Salidas: 
+    """
+    strTabla = "<html>\n<head>\n<title> \nEntregas \n\
+                </title>\n</head><body><h1>Reporte de Entregas</h1> \
+                <table><tr><th>Número de tracking</th><th>Número de compra</th><th>Código de compra</th><th>Cantidad</th> \
+                <th>Costo en dólares</th><th>Costo en colones</th></tr>"
+    for tracking in listatracking:
+        print(tracking)
+        numCompra=tracking.getCompra()
+        numTracking=tracking.getTracking()
+        codigoCompra=tracking.getCodigo()
+        for compra in listacompras:
+            if numCompra==compra.obtenerNumCompra():
+                detalle=compra.obtenerDetalle()
+                for item in detalle:
+                    if codigoCompra==item[0]:
+                        cantidad=item[1]
+        costo=tracking.getCosto()
+        strElementos = ("<tr><td>"+str(numTracking)+"</td><td>"+
+            str(numCompra)+"</td><td>"+codigoCompra+"</td><td>"+str(cantidad)+"</td><td>"+str(costo[0])+"</td><td>"+
+            str(costo[1])+"<td></tr>")
+        strTabla += strElementos
+    strTabla += "</table></html>"
+    return crearArchivoHtml("Reporte Entregas", strTabla)
 #PP
 
 listausuario=crearUsuarios(10, [])
@@ -106,3 +124,5 @@ generarTracking(listacompras)
 reportesCompra(listatracking, listatracking[5].getCompra(), diccionario)
 
 reportesMedio(listatracking, listacompras, medio)
+
+reportesEntregas(listatracking, listacompras)

@@ -415,15 +415,13 @@ def reportesMedio(listatracking, listacompras, medio):
     Entradas: 
     Salidas: 
     """
-    for i in range (0,4):
-        strTotal="<html>\n<head>\n<title> \nReporte por medios \n"
-
-        strTabla = "</title>\n</head><body><h1>Medio: "+str(medio[i])+"</h1> \
+    strTotal="<html>\n<head>\n<title> \nReporte por medios \n"
+    for i in range (0,3):
+        strTabla = "</title>\n</head><body><h1>Medio: "+medio[i]+"</h1> \
                     <table><tr><th>Número de tracking</th><th>Número de compra</th><th>Código de compra</th> \
                         <th>Cantidad</th><th>Costo en dólares</th><th>Costo en colones</th></tr>"
         for tracking in listatracking:
-            if tracking.getMedio()==medio[i]:
-                print(tracking)
+            if tracking.getMedio()==i:
                 numCompra=tracking.getCompra()
                 numTracking=tracking.getTracking()
                 codigoCompra=tracking.getCodigo()
@@ -431,7 +429,7 @@ def reportesMedio(listatracking, listacompras, medio):
                     if numCompra==compra.obtenerNumCompra():
                         detalle=compra.obtenerDetalle()
                         for item in detalle:
-                            if numTracking==item[0]:
+                            if codigoCompra==item[0]:
                                 cantidad=item[1]
                 costo=tracking.getCosto()
                 strElementos = ("<tr><td>"+str(numTracking)+"</td><td>"+
@@ -463,7 +461,7 @@ def reportesEntregas(listatracking, listacompras):
             if numCompra==compra.obtenerNumCompra():
                 detalle=compra.obtenerDetalle()
                 for item in detalle:
-                    if numTracking==item[0]:
+                    if codigoCompra==item[0]:
                         cantidad=item[1]
         costo=tracking.getCosto()
         strElementos = ("<tr><td>"+str(numTracking)+"</td><td>"+
