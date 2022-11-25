@@ -29,8 +29,8 @@ def crearUsuariosAux(pCant, pUsuarios):
         return messagebox.showwarning("Usuarios ya existen", "Los usuarios ya han sido creados antes.")
     elif not esEntero(pCant):
         return messagebox.showerror("Cantidad incorrecta", "Debe ingresar un número entero positivo.")
-    elif 0 >= int(pCant) or int(pCant) > 1000:
-        return messagebox.showerror("Cantidad incorrecta", "Debe ingresar un número entero mayor a 0 y menor a 1001.")
+    elif 0 >= int(pCant):
+        return messagebox.showerror("Cantidad incorrecta", "Debe ingresar un número entero mayor a 0.")
     messagebox.showinfo("Usuarios generados", f"Los {pCant} usuarios han sido generados.")
     return crearUsuarios(int(pCant), pUsuarios)
 
