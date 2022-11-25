@@ -56,8 +56,8 @@ def crearComprasAux(pUsuarios, pDiccProductos, pCompras):
 def reportesProductosAux(pCasillero, pCompras, pProductos):
     """
     Funcionalidad: valida los datos de entrada
-    Entradas: 
-    Salidas:
+    Entradas: pCasillero(str), pCompras(str), pProductos(list)
+    Salidas:Un mensaje de error o el resultado de reportesProductos(int(pCasillero), pCompras, pProductos)
     """
     if not esEntero(pCasillero):
         return messagebox.showerror("Formato casillero incorrecto", "Debe ingresar un número entero positivo "+
@@ -70,11 +70,24 @@ def reportesProductosAux(pCasillero, pCompras, pProductos):
 
 # Tracking de una compra
 def reportesCompraAux(listatracking, pCompras, diccionario):
+    """
+    Funcionalidad: valida los datos de entrada
+    Entradas: listatracking (list), pCompras(str), diccionario(dicc)
+    Salidas:Un mensaje de error o el resultado de reportesCompra(listatracking, int(pCompras), diccionario)
+    """
     if not esEntero(pCompras):
-        return messagebox.showerror("")
+        return messagebox.showerror("Formato de número de compra incorrecto", "Debe ingresar un número entero positivo")
+    elif int(pCompras)<=0:
+        return messagebox.showerror("El número de compra es inválido", "Debe ingresar un número de compra mayor que 0")
+    else:
+        for tracking in listatracking:
+            if tracking.getCompra()==int(pCompras):
+                messagebox.showinfo("Reporte creado", "El reporte del número de compra: "+pCompras+" ha sido creado.")
+                return reportesCompra(listatracking, int(pCompras), diccionario)
+        return messagebox.showerror("El número de compra no existe", "Digite otro número de compra")
 
 # Tracking por medio
-"""Agregarla en caso de necesitar"""
+"""No necesita"""
 
 # Reporte de entregas
-"""Agregarla en caso de necesitar"""
+"""No necesita"""

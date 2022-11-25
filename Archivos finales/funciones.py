@@ -121,22 +121,25 @@ def crearArchivoXML(pNombre, pInfo):
     archivo.close
     return    
 
-def leerArchivoXML(pnombre):
+def leerArchivoXML(pnombre,diccionario):
     """
     F:Funcion que abre el archivo .xml y obtiene los datos correspondientes.
-    E:pnombre(str); nombre del archivo
+    E:pnombre(str); nombre del archivo, diccionario(dicc)
     S:diccionario (dic); el diccionario con todos los datos del documento.xml
     """
     doc = open(pnombre + ".xml", encoding="utf-8")
     almacen = ET.fromstring(doc.read())
     productos = almacen.findall('producto')
-    diccionario={}
+    contador=0
     for producto in productos:
         codigo=producto.find("codigoProducto").text
         nombre=producto.find("nombreProducto").text
         precio=producto.find("precio").text
         dolar=0 #funcionDolar
         diccionario[codigo]=[nombre,(float(precio),dolar)]
+        contador+=1
+    print(diccionario)
+    print("Cantidad total: ",contador)
     return diccionario
 
 # 2. Crear usuarios
@@ -256,8 +259,8 @@ def crearCompras(pUsuarios, pDiccProductos, pCompras):
 
 # 4. Generar tracking
 
-def  generarTracking(listaobjetos, listatracking):
-    tipocambio=cambioUSDtoCRC()
+def  generarTracking(listaobjetos, listatracking, tipocambio):
+    contador=0
     for objeto in listaobjetos:
         listadetalles=objeto.obtenerDetalle()
         for codigop in listadetalles:
@@ -276,6 +279,8 @@ def  generarTracking(listaobjetos, listatracking):
             medionum, tuple(listacosto))
             listatracking.append(paquete)
             print(paquete.getInfo())
+            contador+=1
+    print("Cantidad total: ", contador)
     return listatracking
 
 # 5. Reportes HTML
@@ -368,7 +373,6 @@ def reportesProductos(pCasillero, pCompras, pProductos):
                 <table><tr><th>Nombre del producto</th><th>Precio dólares</th> \
                     <th>Precio colones</th></tr>"
     for producto in productos:
-        print(producto)
         strElementos = ("<tr><td>"+producto[0]+"</td><td>"+
             str(producto[1])+"</td><td>"+str(producto[2])+"<td></tr>")
         strTabla += strElementos
@@ -379,9 +383,9 @@ def reportesProductos(pCasillero, pCompras, pProductos):
 # Tracking de una compra
 def obtenerNombre(codigo, diccionario):
     """
-    Funcionalidad: 
-    Entradas: 
-    Salidas: 
+    Funcionalidad: Obtiene el nombre del producto
+    Entradas: codigo(str), diccionario (Dicc)
+    Salidas: diccionario[key][0]; el nombre del producto
     """
     for key in diccionario:
         if key==codigo:
@@ -389,9 +393,11 @@ def obtenerNombre(codigo, diccionario):
 
 def reportesCompra(listatracking, pCompras, diccionario):
     """
-    Funcionalidad: 
-    Entradas: 
-    Salidas: 
+    Funcionalidad: crea el reporte de productos según el número de compra
+    Entradas: pCompras (int) 
+              listatracking (list)
+              diccionario (dict)
+    Salidas: crearArchivoHtml("Reporte Compra " + str(pCompras), strTabla) (HTML file)
     """
     strTabla = "<html>\n<head>\n<title> \nCompras\n\
                 </title>\n</head><body><h1>Número de Compra "+str(pCompras)+"</h1> \
@@ -399,7 +405,6 @@ def reportesCompra(listatracking, pCompras, diccionario):
                     <th>Costo en colones</th></tr>"
     for tracking in listatracking:
         if tracking.getCompra()==pCompras:
-            print(tracking)
             nombreproducto=obtenerNombre(tracking.getCodigo(), diccionario)
             costo=tracking.getCosto()
             strElementos = ("<tr><td>"+nombreproducto+"</td><td>"+
@@ -411,9 +416,11 @@ def reportesCompra(listatracking, pCompras, diccionario):
 # Tracking por medio
 def reportesMedio(listatracking, listacompras, medio):
     """
-    Funcionalidad: 
-    Entradas: 
-    Salidas: 
+    Funcionalidad: crea el reporte de productos para todos los medios
+    Entradas: listatracking (list) 
+              listacompras (list)
+              medio (list)
+    Salidas: crearArchivoHtml("Reporte Medios", strTotal) (HTML file)
     """
     strTotal="<html>\n<head>\n<title> \nReporte por medios \n"
     for i in range (0,3):
@@ -444,16 +451,16 @@ def reportesMedio(listatracking, listacompras, medio):
 # Reporte de entregas
 def reportesEntregas(listatracking, listacompras):
     """
-    Funcionalidad: 
-    Entradas: 
-    Salidas: 
+    Funcionalidad: crea el reporte de Tracking
+    Entradas: listatracking (list) 
+              listacompras (list)
+    Salidas: crearArchivoHtml("Reporte Entregas", strTabla) (HTML file) 
     """
     strTabla = "<html>\n<head>\n<title> \nEntregas \n\
                 </title>\n</head><body><h1>Reporte de Entregas</h1> \
                 <table><tr><th>Número de tracking</th><th>Número de compra</th><th>Código de compra</th><th>Cantidad</th> \
                 <th>Costo en dólares</th><th>Costo en colones</th></tr>"
     for tracking in listatracking:
-        print(tracking)
         numCompra=tracking.getCompra()
         numTracking=tracking.getTracking()
         codigoCompra=tracking.getCodigo()

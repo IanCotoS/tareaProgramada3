@@ -115,14 +115,12 @@ def reportesEntregas(listatracking, listacompras):
 #PP
 
 listausuario=crearUsuarios(10, [])
-datos=obtenerDatosCSV()
-crearArchivoXML("Prueba",convertirDatosXML(purificarDatos(datos)))
+crearArchivoXML("Prueba",convertirDatosXML(purificarDatos(obtenerDatosCSV())))
 diccionario=leerArchivoXML("Prueba")
-listacompras=crearCompras(listausuario, diccionario, [])
-generarTracking(listacompras)
+#generarTracking(listacompras)
 
-reportesCompra(listatracking, listatracking[5].getCompra(), diccionario)
+#reportesCompra(listatracking, listatracking[5].getCompra(), diccionario)
 
-reportesMedio(listatracking, listacompras, medio)
+#reportesMedio(listatracking, listacompras, medio)
 
-reportesEntregas(listatracking, listacompras)
+#reportesEntregas(listatracking, listacompras)
