@@ -311,6 +311,7 @@ def menuVentana():
     medio=["aéreo", "terrestre", "marítimo"]
     crearArchivoXML("Prueba",convertirDatosXML(purificarDatos(obtenerDatosCSV())))
     tipocambio=607 #cambioUSDtoCRC()
+    tipocambiomx=cambioMXNtoUSD()
     titulo = tk.StringVar(value="¡Bienvenido a AeroTEC!")
     tituloLabel = ctk.CTkLabel(master=app,
                                textvariable=titulo,
@@ -335,7 +336,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=fuenteBotonesMenu,
                                  text="1. Importar producto",
-                                 command=lambda: leerArchivoXML("Prueba",productos))
+                                 command=lambda: leerArchivoXML("Prueba",productos,tipocambiomx))
     boton1.grid(row = 3, column = 0, padx=5, pady=5, ipadx=15, ipady=10)
     boton2 = ctk.CTkButton(master=app,
                                  width=120,

@@ -121,7 +121,7 @@ def crearArchivoXML(pNombre, pInfo):
     archivo.close
     return    
 
-def leerArchivoXML(pnombre,diccionario):
+def leerArchivoXML(pnombre,diccionario,tipocambiomx):
     """
     F:Funcion que abre el archivo .xml y obtiene los datos correspondientes.
     E:pnombre(str); nombre del archivo, diccionario(dicc)
@@ -135,7 +135,7 @@ def leerArchivoXML(pnombre,diccionario):
         codigo=producto.find("codigoProducto").text
         nombre=producto.find("nombreProducto").text
         precio=producto.find("precio").text
-        dolar=0 #funcionDolar
+        dolar=tipocambiomx*float(precio) #funcionDolar
         diccionario[codigo]=[nombre,(float(precio),dolar)]
         contador+=1
     print(diccionario)
