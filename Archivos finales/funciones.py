@@ -56,8 +56,13 @@ def cambioUSDtoCRC():
     Entrada: N/A
     Salida: cambio de un dólar a colón (float)
     """
-    response = requests.get("http://data.fixer.io/api/latest?access_key=7370ff2962d49abefc56c32f5bc74aa8")
-    return response.json()['rates']['CRC']/response.json()['rates']['USD']
+    url = "https://api.apilayer.com/fixer/convert?to=CRC&from=USD&amount=1"
+    payload = {}
+    headers= {"apikey": "QsXLGNtt1JaTYyEmQZRikj8HnvAKlMlM"}
+    response = requests.request("GET", url, headers=headers, data = payload)
+    status_code = response.status_code
+    result = response.text
+    return response.json()['info']['rate']
 
 # 1. Importar producto
 def obtenerDatosCSV():
@@ -340,18 +345,18 @@ def obtenerDetCasillero(pCasillero, pCompras):
             return compras.obtenerDetalle()
     return []
 
-def obtenerProdCasillero(pCasillero, pCompras, pProductos):
+def obtenerProdCasillero(pCasillero, pCompras, pProductos, valorColon):
     """
     Funcionalidad: obtiene los datos del producto en pProdutos, según el 
                    detalle del casillero
     Entradas: pCasillero (int) 
               pCompras (list of compra)
               pProductos (dict)
-    Salidas:
+              valorColon (float)
+    Salidas: productos (list)
     """
     prodsCasillero = obtenerDetCasillero(pCasillero, pCompras)
     productos = []
-    valorColon = cambioUSDtoCRC()
     for compra in prodsCasillero:
         for codigo, datos in pProductos.items():
             if compra[0] == codigo:
