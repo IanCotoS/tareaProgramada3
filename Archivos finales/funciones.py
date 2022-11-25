@@ -141,7 +141,7 @@ def leerArchivoXML(pnombre,diccionario,tipocambiomx):
         codigo=producto.find("codigoProducto").text
         nombre=producto.find("nombreProducto").text
         precio=producto.find("precio").text
-        dolar=tipocambiomx*float(precio) #funcionDolar
+        dolar=round(tipocambiomx*float(precio), 6) #funcionDolar
         diccionario[codigo]=[nombre,(float(precio),dolar)]
         contador+=1
     print(diccionario)
@@ -234,10 +234,10 @@ def crearDetalle(pDiccProductos):
         if codigoAct not in codigosUsados:
             codigosUsados.append(codigoAct)
             cantProducto = random.randint(1,3)
-            subtotal = round(((pDiccProductos[codigoAct][1][1])*cantProducto), 2) # redondea a dos decimales
+            subtotal = round(((pDiccProductos[codigoAct][1][1])*cantProducto), 6) # redondea a dos decimales
             comprasRealizadas.append([codigoAct, cantProducto, subtotal])
             total += subtotal
-    return comprasRealizadas, round(total, 2)
+    return comprasRealizadas, round(total, 6)
 
 def crearCompras(pUsuarios, pDiccProductos, pCompras):
     """
@@ -269,18 +269,18 @@ def generarTracking(listaobjetos, listatracking, tipocambio):
     for objeto in listaobjetos:
         listadetalles=objeto.obtenerDetalle()
         for codigop in listadetalles:
-            nTracking=random.randint(1,7500)
+            nTracking=random.randint(1,100000)
             nCompra=objeto.obtenerNumCompra()
             codigoP=codigop[0]
             trackingnum=random.randint(0, 4)
             medionum=random.randint(0, 2)
             if medionum==0:
-                costoprimer=codigop[2]*0.06
+                costoprimer=round(codigop[2]*0.06,6)
             else:
-                costoprimer=codigop[2]*0.05
-            costosegun=costoprimer*tipocambio #Precio del cambio del dolar
+                costoprimer=round(codigop[2]*0.05, 6)
+            costosegun=round(costoprimer*tipocambio, 6) #Precio del cambio del dolar
             listacosto=[costoprimer, costosegun]
-            paquete=Tracking( nTracking, nCompra, codigoP, trackingnum, 
+            paquete=Tracking(nTracking, nCompra, codigoP, trackingnum, 
             medionum, tuple(listacosto))
             listatracking.append(paquete)
             print(paquete.getInfo())
@@ -360,7 +360,7 @@ def obtenerProdCasillero(pCasillero, pCompras, pProductos, valorColon):
     for compra in prodsCasillero:
         for codigo, datos in pProductos.items():
             if compra[0] == codigo:
-                productos.append((datos[0], datos[1][1], round(datos[1][1]*valorColon, 2)))
+                productos.append((datos[0], datos[1][1], round(datos[1][1]*valorColon, 6)))
                 break
     return productos
 

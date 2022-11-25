@@ -117,7 +117,7 @@ def reporteProdCasilleroVent(ventanaMain, pProductos, pCompras, tipoCambioCRC):
     text_font=fuenteTitulo)
     titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
     subTitulo = ctk.CTkLabel(reporteProdCasilleroVent, 
-    text="Ingrese el número del casillero (mayor o igual que 10):",
+    text="Ingrese el número del casillero (mayor o igual que 1):",
     text_font=fuenteBotones)
     subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
     cantEntry = ctk.CTkEntry(master=reporteProdCasilleroVent,
@@ -312,8 +312,9 @@ def menuVentana():
     tracking = []
     medio=["aéreo", "terrestre", "marítimo"]
     crearArchivoXML("Prueba",convertirDatosXML(purificarDatos(obtenerDatosCSV())))
-    tipoCambioCRC = 670.12 #cambioUSDtoCRC()
+    tipoCambioCRC = cambioUSDtoCRC()
     tipoCambioMxn = cambioMXNtoUSD()
+    print("MXN to USD:", tipoCambioMxn, "USD to CRC:", tipoCambioCRC)
     titulo = tk.StringVar(value="¡Bienvenido a AeroTEC!")
     tituloLabel = ctk.CTkLabel(master=app,
                                textvariable=titulo,
