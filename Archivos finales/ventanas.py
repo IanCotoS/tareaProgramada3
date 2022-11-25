@@ -98,16 +98,16 @@ def bloqueoGenerarTracking(pCompras, pTracking,tipocambio):
     """
     if len(pCompras) == 0:
         return messagebox.showerror("Compras vacías", "No se han generado las compras.")
-    messagebox.showinfo("Tracking generado", "El tracking ha sido generado.")
-    return generarTracking(pCompras, pTracking,tipocambio)
+    return generarTrackingAux(pCompras, pTracking,tipocambio)
 
 # 5. Reportes
-def reporteProdCasilleroVent(ventanaMain, pProductos, pCompras):
+def reporteProdCasilleroVent(ventanaMain, pProductos, pCompras, tipoCambioCRC):
     """
     Funcionalidad: ser la ventana que permite los reportes de productos por casillero
     Entrada: ventanaMain (CTK)
     pProductos (dict)
     pCompras (compras)
+    tipoCambioCRC (float)
     Salida: genera reporte productos por casillero / mensaje retroalimentación
     """
     reporteProdCasilleroVent = ctk.CTkToplevel(ventanaMain)
@@ -134,7 +134,7 @@ def reporteProdCasilleroVent(ventanaMain, pProductos, pCompras):
                                  fg_color="grey",
                                  text_font=fuenteBotones,
                                  text="Crear",
-                                 command=lambda: reportesProductosAux(cantEntry.get(), pCompras, pProductos))
+                                 command=lambda: reportesProductosAux(cantEntry.get(), pCompras, pProductos, tipoCambioCRC))
     botonCrear.place(relx=0.30, rely=0.75, anchor=tk.CENTER)
     botonSalir = ctk.CTkButton(master=reporteProdCasilleroVent,
                                  width=120,
@@ -212,7 +212,7 @@ def devuelveReporte(ventanaMain, pOpcion, pProductos, pUsuarios, pCompras, pTrac
         return reporteCompraVent(ventanaMain, pProductos, pTracking)
     elif pOpcion == 3:
         messagebox.showinfo("Reporte creado", 
-        "El reporte por tipoi de medio ha sido creado.")
+        "El reporte por tipo de medio ha sido creado.")
         return reportesMedio(pTracking, pCompras, medio)
     elif pOpcion== 4:
         messagebox.showinfo("Reporte creado", 
@@ -304,15 +304,15 @@ def menuVentana():
             por el botón
     """
     app = ctk.CTk()
-    app.geometry(f"{515}x{400}")
+    app.geometry(f"{515}x{385}")
     app.title("AeroTEC")
-    productos = {} # Debe estar vacío y usarse para la primer función
+    productos = {}
     usuarios = []
     compras = []
     tracking = []
     medio=["aéreo", "terrestre", "marítimo"]
     crearArchivoXML("Prueba",convertirDatosXML(purificarDatos(obtenerDatosCSV())))
-    tipoCambioCRC = cambioUSDtoCRC()
+    tipoCambioCRC = 670.12 #cambioUSDtoCRC()
     tipoCambioMxn = cambioMXNtoUSD()
     titulo = tk.StringVar(value="¡Bienvenido a AeroTEC!")
     tituloLabel = ctk.CTkLabel(master=app,
@@ -338,7 +338,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=fuenteBotonesMenu,
                                  text="1. Importar producto",
-                                 command=lambda: leerArchivoXML("Prueba",productos,tipoCambioMxn))
+                                 command=lambda: leerArchivoXMLAux("Prueba",productos,tipoCambioMxn))
     boton1.grid(row = 3, column = 0, padx=5, pady=5, ipadx=15, ipady=10)
     boton2 = ctk.CTkButton(master=app,
                                  width=120,

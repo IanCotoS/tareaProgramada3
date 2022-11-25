@@ -5,6 +5,7 @@
 
 # Importar librerías
 from datetime import datetime
+from tkinter import messagebox
 import requests
 import random
 import string
@@ -263,8 +264,7 @@ def crearCompras(pUsuarios, pDiccProductos, pCompras):
     return pCompras
 
 # 4. Generar tracking
-
-def  generarTracking(listaobjetos, listatracking, tipocambio):
+def generarTracking(listaobjetos, listatracking, tipocambio):
     contador=0
     for objeto in listaobjetos:
         listadetalles=objeto.obtenerDetalle()
@@ -364,7 +364,7 @@ def obtenerProdCasillero(pCasillero, pCompras, pProductos, valorColon):
                 break
     return productos
 
-def reportesProductos(pCasillero, pCompras, pProductos):
+def reportesProductos(pCasillero, pCompras, pProductos, tipoCambioCRC):
     """
     Funcionalidad: crea el reporte de productos según el casillero
     Entradas: pCasillero (int) 
@@ -372,7 +372,7 @@ def reportesProductos(pCasillero, pCompras, pProductos):
               pProductos (dict)
     Salidas: crearArchivoHtml("Reporte productos casillero " + str(pCasillero), strTabla) (HTML file)
     """
-    productos = obtenerProdCasillero(pCasillero, pCompras, pProductos)
+    productos = obtenerProdCasillero(pCasillero, pCompras, pProductos, tipoCambioCRC)
     strTabla = "<html>\n<head>\n<title> \nProductos casillero "+str(pCasillero)+" \n\
                 </title>\n</head><body><h1>Casillero "+str(pCasillero)+"</h1> \
                 <table><tr><th>Nombre del producto</th><th>Precio dólares</th> \

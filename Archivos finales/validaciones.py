@@ -10,7 +10,11 @@ from clases import *
 
 # Funciones validaciones
 # 1. Importar producto
-"""No se necesita"""
+def leerArchivoXMLAux(pnombre,diccionario,tipocambiomx):
+    if len(diccionario) != 0:
+        return messagebox.showwarning("Productos ya existen", "Los productos ya han sido creados antes.")
+    messagebox.showinfo("Productos importados", "Los productos han sido importados.")
+    return leerArchivoXML(pnombre,diccionario,tipocambiomx)
 
 # 2. Crear usuarios
 def crearUsuariosAux(pCant, pUsuarios):
@@ -27,7 +31,7 @@ def crearUsuariosAux(pCant, pUsuarios):
         return messagebox.showerror("Cantidad incorrecta", "Debe ingresar un número entero positivo.")
     elif 0 >= int(pCant) or int(pCant) > 1000:
         return messagebox.showerror("Cantidad incorrecta", "Debe ingresar un número entero mayor a 0 y menor a 1001.")
-    messagebox.showinfo("Usuarios generadas", f"Los {pCant} usuarios han sido generados.")
+    messagebox.showinfo("Usuarios generados", f"Los {pCant} usuarios han sido generados.")
     return crearUsuarios(int(pCant), pUsuarios)
 
 # 3. Generar compras
@@ -46,14 +50,18 @@ def crearComprasAux(pUsuarios, pDiccProductos, pCompras):
     return crearCompras(pUsuarios, pDiccProductos, pCompras)
 
 # 4. Generar tracking
-"""No se necesita"""
+def generarTrackingAux(listaobjetos, listatracking, tipocambio):
+    if len(listatracking) != 0:
+        return messagebox.showwarning("Tracking ya existe", "El tracking ya ha sido creado antes.")
+    messagebox.showinfo("Tracking generado", "El tracking ha sido generado.")
+    return generarTracking(listaobjetos, listatracking, tipocambio)
 
 # 5. Reportes
 # Casilleros
 """No necesita validación"""
 
 # Productos casillero
-def reportesProductosAux(pCasillero, pCompras, pProductos):
+def reportesProductosAux(pCasillero, pCompras, pProductos, tipoCambioCRC):
     """
     Funcionalidad: valida los datos de entrada
     Entradas: pCasillero(str), pCompras(str), pProductos(list)
@@ -66,7 +74,7 @@ def reportesProductosAux(pCasillero, pCompras, pProductos):
         return messagebox.showerror("Casillero no encontrado", "Ingrese un casillero existente.")
     messagebox.showinfo("Reporte creado", "El reporte de los productos en el casillero " + 
     pCasillero + " ha sido creado.")
-    return reportesProductos(int(pCasillero), pCompras, pProductos)
+    return reportesProductos(int(pCasillero), pCompras, pProductos, tipoCambioCRC)
 
 # Tracking de una compra
 def reportesCompraAux(listatracking, pCompras, diccionario):
