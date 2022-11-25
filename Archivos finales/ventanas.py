@@ -265,6 +265,7 @@ def menuVentana():
     usuarios = []
     compras = []
     tracking = []
+    medio=["aéreo", "terrestre", "marítimo"]
     titulo = tk.StringVar(value="¡Bienvenido a AeroTEC!")
     tituloLabel = ctk.CTkLabel(master=app,
                                textvariable=titulo,

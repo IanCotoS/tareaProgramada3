@@ -10,6 +10,8 @@ import random
 import string
 from names import *
 from clases import *
+import csv
+import xml.etree.ElementTree as ET
 
 # Funciones
 # Extras
@@ -58,7 +60,84 @@ def cambioUSDtoCRC():
     return response.json()['rates']['CRC']/response.json()['rates']['USD']
 
 # 1. Importar producto
-"""Agregarla"""
+def obtenerDatosCSV():
+    """
+    F:Obtiene los datos del archivo.csv y los guarda los datos por fila en una matriz.
+    E:N/A
+    S:La matriz con todos los datos del documento csv
+    """
+    archivo= open("HojaParaTP3.csv", encoding="utf8")
+    csv_archivo=csv.reader(archivo)
+    datos=[]
+    for fila in csv_archivo:
+        datos.append(fila)
+    archivo.close()
+    return datos
+
+def purificarDatos(lista):
+    """
+    F:Funcion que se encarga de purificar los datos provenientes de la matriz creada
+    E:lista (list); lista con todos los datos del archivo 
+    S:listanueva (list); Lista con los valores corregidos 
+    """
+    listanueva=[]
+    for fila in lista:
+        if fila[2]!='':
+            if (fila[2][0]=="E") or (fila[2][0]=="O") or (fila[2][0]=="H"):
+                fila[3]=fila[3].replace("&", "y")
+                fila[4]=fila[4].replace(",", "")
+                listanueva.append(fila)
+    return listanueva
+
+def convertirDatosXML(lista):
+    """
+    F:Funcion que acomoda los datos purificados en un formato xml.
+    E:lista(list)
+    S:stringdatos(str)
+    """
+    stringdatos="""
+                    <almacen>"""
+    for fila in lista:
+        stringdatos+="""
+                        <producto>
+                            <codigoProducto>%s</codigoProducto>
+                            <nombreProducto>%s</nombreProducto>
+                            <precio>%s</precio>
+                        </producto>""" % (fila[2], fila[3], fila[4])
+    stringdatos+="""
+                    </almacen>"""
+    return stringdatos 
+
+
+def crearArchivoXML(pNombre, pInfo):
+    """
+    Funcionalidad: crea el archivo XML
+    Entradas: pNombre (str)
+              pInfo (str)
+    Salidas: N/A
+    """
+    archivo = open(pNombre + ".xml", 'w', encoding="utf-8")
+    archivo.write(pInfo)
+    archivo.close
+    return    
+
+def leerArchivoXML(pnombre):
+    """
+    F:Funcion que abre el archivo .xml y obtiene los datos correspondientes.
+    E:pnombre(str); nombre del archivo
+    S:diccionario (dic); el diccionario con todos los datos del documento.xml
+    """
+    doc = open(pnombre + ".xml", encoding="utf-8")
+    almacen = ET.fromstring(doc.read())
+    productos = almacen.findall('producto')
+    diccionario={}
+    for producto in productos:
+        codigo=producto.find("codigoProducto").text
+        nombre=producto.find("nombreProducto").text
+        precio=producto.find("precio").text
+        dolar=0 #funcionDolar
+        diccionario[codigo]=[nombre,(float(precio),dolar)]
+    return diccionario
 
 # 2. Crear usuarios
 def crearContrasenna():
@@ -176,7 +255,28 @@ def crearCompras(pUsuarios, pDiccProductos, pCompras):
     return pCompras
 
 # 4. Generar tracking
-"""Agregarla"""
+
+def  generarTracking(listaobjetos, listatracking):
+    tipocambio=cambioUSDtoCRC()
+    for objeto in listaobjetos:
+        listadetalles=objeto.obtenerDetalle()
+        for codigop in listadetalles:
+            nTracking=random.randint(1,7500)
+            nCompra=objeto.obtenerNumCompra()
+            codigoP=codigop[0]
+            trackingnum=random.randint(0, 4)
+            medionum=random.randint(0, 2)
+            if medionum==0:
+                costoprimer=codigop[2]*0.06
+            else:
+                costoprimer=codigop[2]*0.05
+            costosegun=costoprimer*tipocambio #Precio del cambio del dolar
+            listacosto=[costoprimer, costosegun]
+            paquete=Tracking( nTracking, nCompra, codigoP, trackingnum, 
+            medionum, tuple(listacosto))
+            listatracking.append(paquete)
+            print(paquete.getInfo())
+    return listatracking
 
 # 5. Reportes HTML
 def crearArchivoHtml(pNombre, pInfo):
@@ -277,10 +377,98 @@ def reportesProductos(pCasillero, pCompras, pProductos):
         
 
 # Tracking de una compra
-"""Agregarla"""
+def obtenerNombre(codigo, diccionario):
+    """
+    Funcionalidad: 
+    Entradas: 
+    Salidas: 
+    """
+    for key in diccionario:
+        if key==codigo:
+            return diccionario[key][0]
+
+def reportesCompra(listatracking, pCompras, diccionario):
+    """
+    Funcionalidad: 
+    Entradas: 
+    Salidas: 
+    """
+    strTabla = "<html>\n<head>\n<title> \nCompras\n\
+                </title>\n</head><body><h1>Número de Compra "+str(pCompras)+"</h1> \
+                <table><tr><th>Nombre del producto</th><th>Número de tracking</th><th>Costo en dólares</th> \
+                    <th>Costo en colones</th></tr>"
+    for tracking in listatracking:
+        if tracking.getCompra()==pCompras:
+            print(tracking)
+            nombreproducto=obtenerNombre(tracking.getCodigo(), diccionario)
+            costo=tracking.getCosto()
+            strElementos = ("<tr><td>"+nombreproducto+"</td><td>"+
+                str(tracking.getTracking())+"</td><td>"+str(costo[0])+"</td><td>"+str(costo[1])+"</td></tr>")
+            strTabla += strElementos
+    strTabla += "</table></html>"
+    return crearArchivoHtml("Reporte Compra " + str(pCompras), strTabla)
 
 # Tracking por medio
-"""Agregarla"""
+def reportesMedio(listatracking, listacompras, medio):
+    """
+    Funcionalidad: 
+    Entradas: 
+    Salidas: 
+    """
+    for i in range (0,4):
+        strTotal="<html>\n<head>\n<title> \nReporte por medios \n"
+
+        strTabla = "</title>\n</head><body><h1>Medio: "+str(medio[i])+"</h1> \
+                    <table><tr><th>Número de tracking</th><th>Número de compra</th><th>Código de compra</th> \
+                        <th>Cantidad</th><th>Costo en dólares</th><th>Costo en colones</th></tr>"
+        for tracking in listatracking:
+            if tracking.getMedio()==medio[i]:
+                print(tracking)
+                numCompra=tracking.getCompra()
+                numTracking=tracking.getTracking()
+                codigoCompra=tracking.getCodigo()
+                for compra in listacompras:
+                    if numCompra==compra.obtenerNumCompra():
+                        detalle=compra.obtenerDetalle()
+                        for item in detalle:
+                            if numTracking==item[0]:
+                                cantidad=item[1]
+                costo=tracking.getCosto()
+                strElementos = ("<tr><td>"+str(numTracking)+"</td><td>"+
+                    str(numCompra)+"</td><td>"+codigoCompra+"</td><td>"+str(cantidad)+"</td><td>"
+                    +str(costo[0])+"</td><td>"+str(costo[1])+"</td></tr>")
+                strTabla += strElementos
+        strTabla += "</table>"
+        strTotal+=strTabla
+    strTotal+="</html>"
+    return crearArchivoHtml("Reporte Medios", strTotal)
 
 # Reporte de entregas
-"""Agregarla"""
+def reportesEntregas(listatracking, listacompras):
+    """
+    Funcionalidad: 
+    Entradas: 
+    Salidas: 
+    """
+    strTabla = "<html>\n<head>\n<title> \nEntregas \n\
+                </title>\n</head><body><h1>Reporte de Entregas</h1> \
+                <table><tr><th>Número de tracking</th><th>Número de compra</th><th>Código de compra</th><th>Cantidad</th> \
+                <th>Costo en dólares</th><th>Costo en colones</th></tr>"
+    for tracking in listatracking:
+        print(tracking)
+        numCompra=tracking.getCompra()
+        numTracking=tracking.getTracking()
+        codigoCompra=tracking.getCodigo()
+        for compra in listacompras:
+            if numCompra==compra.obtenerNumCompra():
+                detalle=compra.obtenerDetalle()
+                for item in detalle:
+                    if numTracking==item[0]:
+                        cantidad=item[1]
+        costo=tracking.getCosto()
+        strElementos = ("<tr><td>"+str(numTracking)+"</td><td>"+
+            str(numCompra)+"</td><td>"+codigoCompra+"</td><td>"+str(cantidad)+"</td><td>"+str(costo[0])+"</td><td>"+
+            str(costo[1])+"<td></tr>")
+        strTabla += strElementos
+    strTabla += "</table></html>"
+    return crearArchivoHtml("Reporte Entregas", strTabla)

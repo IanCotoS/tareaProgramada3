@@ -295,4 +295,67 @@ class Compra:
 
 
 # Clase Tracking
-"""Agregarla"""
+class Tracking:
+    def __init__(self, nTracking, nCompra, nFactura, nEstado, nMedio, nCosto ):
+        """
+        Método constructor = Crea la estructura de la clase Tracking
+        Método que se llama al instanciar
+        """
+        self.tracking=nTracking
+        self.compra=nCompra
+        self.codigo=nFactura
+        self.estado=nEstado
+        self.medio=nMedio
+        self.costo=nCosto
+    
+    def getTracking(self):
+        """
+        Función: retorna el número de tracking
+        Entrada: N/A
+        Salida: self.tracking (int)
+        """  
+        return self.tracking
+
+    def getCompra(self):
+        """
+        Función: retorna el número de compra
+        Entrada: N/A
+        Salida: self.compra (int)
+        """  
+        return self.compra
+
+    def getCodigo(self):
+        """
+        Función: retorna el número de código
+        Entrada: N/A
+        Salida: self.codigo (str)
+        """  
+        return self.codigo
+    
+    def getEstado(self):
+        """
+        Función: retorna el número del estado del tracking
+        Entrada: N/A
+        Salida: self.estado (int)
+        """  
+        return self.estado
+
+    def getMedio(self):
+        """
+        Función: retorna el número del medio que se utiliza
+        Entrada: N/A
+        Salida: self.medio (int)
+        """  
+        return self.medio
+
+    def getCosto(self):
+        """
+        Función: retorna el costo del medio
+        Entrada: N/A
+        Salida: self.costo (tuple)
+        """  
+        return self.costo
+
+    def getInfo(self):
+
+        return (self.tracking, self.compra, self.codigo, self.estado, self.medio, self.costo)

@@ -10,7 +10,7 @@ from clases import *
 
 # Funciones validaciones
 # 1. Importar producto
-"""Agregarla en caso de necesitar"""
+"""No se necesita"""
 
 # 2. Crear usuarios
 def crearUsuariosAux(pCant, pUsuarios):
@@ -46,7 +46,7 @@ def crearComprasAux(pUsuarios, pDiccProductos, pCompras):
     return crearCompras(pUsuarios, pDiccProductos, pCompras)
 
 # 4. Generar tracking
-"""Agregarla en caso de necesitar"""
+"""No se necesita"""
 
 # 5. Reportes
 # Casilleros
@@ -69,7 +69,9 @@ def reportesProductosAux(pCasillero, pCompras, pProductos):
     return reportesProductos(int(pCasillero), pCompras, pProductos)
 
 # Tracking de una compra
-"""Agregarla en caso de necesitar"""
+def reportesCompraAux(listatracking, pCompras, diccionario):
+    if not esEntero(pCompras):
+        return messagebox.showerror("")
 
 # Tracking por medio
 """Agregarla en caso de necesitar"""
