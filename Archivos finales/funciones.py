@@ -61,8 +61,6 @@ def cambioUSDtoCRC():
     payload = {}
     headers= {"apikey": "QsXLGNtt1JaTYyEmQZRikj8HnvAKlMlM"}
     response = requests.request("GET", url, headers=headers, data = payload)
-    status_code = response.status_code
-    result = response.text
     return response.json()['info']['rate']
 
 # 1. Importar producto
