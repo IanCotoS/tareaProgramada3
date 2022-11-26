@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 13/11/2022 07:45 pm
-# Última modificación: 23/11/2022 11:30 am
+# Última modificación: 25/11/2022 09:10 pm
 # Versión: 3.10.8
 
 # Importar librerías
@@ -11,6 +11,13 @@ from clases import *
 # Funciones validaciones
 # 1. Importar producto
 def leerArchivoXMLAux(pnombre,diccionario,tipocambiomx):
+    """
+    Funcionalidad: valida los datos de entrada
+    Entradas: pnombre (str)
+    diccionario (dict)
+    tipocambiomx (float)
+    Salidas: resultado de crearUsuarios(pCant, pUsuarios) (list)
+    """
     if len(diccionario) != 0:
         return messagebox.showwarning("Productos ya existen", "Los productos ya han sido creados antes.")
     messagebox.showinfo("Productos importados", "Los productos han sido importados.")
@@ -51,6 +58,13 @@ def crearComprasAux(pUsuarios, pDiccProductos, pCompras):
 
 # 4. Generar tracking
 def generarTrackingAux(listaobjetos, listatracking, tipocambio):
+    """
+    Funcionalidad: valida los datos de entrada
+    Entradas: listaobjetos (list)
+    listatracking (list)
+    tipocambio (float)
+    Salidas: resultado de crearUsuarios(pCant, pUsuarios) (list)
+    """
     if len(listatracking) != 0:
         return messagebox.showwarning("Tracking ya existe", "El tracking ya ha sido creado antes.")
     messagebox.showinfo("Tracking generado", "El tracking ha sido generado.")

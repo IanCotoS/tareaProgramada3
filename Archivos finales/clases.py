@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 13/11/2022 07:45 pm
-# Última modificación: 23/11/2022 11:10 am
+# Última modificación: 25/11/2022 09:10 pm
 # Versión: 3.10.8
 
 # Clase Usuario
@@ -357,5 +357,15 @@ class Tracking:
         return self.costo
 
     def getInfo(self):
-
+        """
+        Función: retorna todos los atributos
+        Entrada: N/A
+        Salida: self.tracking (int)
+        self.compra (int)
+        self.codigo (str)
+        self.estado (int)
+        self.medio (int)
+        self.costo (tuple)
+        """  
         return (self.tracking, self.compra, self.codigo, self.estado, self.medio, self.costo)
+

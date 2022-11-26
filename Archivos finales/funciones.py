@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 13/11/2022 07:45 pm
-# Última modificación: 23/11/2022 11:30 am
+# Última modificación: 23/11/2022 09:30 pm
 # Versión: 3.10.8
 
 # Importar librerías
@@ -265,6 +265,13 @@ def crearCompras(pUsuarios, pDiccProductos, pCompras):
 
 # 4. Generar tracking
 def generarTracking(listaobjetos, listatracking, tipocambio):
+    """
+    Funcionalidad: genera las lista con las instancias de la clase Tracking
+    Entradas: listaobjetos (list) 
+    listatracking (list) 
+    tipocambio (float)
+    Salidas: listatracking (list) (actualizada)
+    """
     contador=0
     for objeto in listaobjetos:
         listadetalles=objeto.obtenerDetalle()
@@ -303,11 +310,21 @@ def crearArchivoHtml(pNombre, pInfo):
 
 # Casilleros
 def retornarPaisStr(pNumPais):
+    """
+    Funcionalidad: retorna el país por posición en la lista
+    Entradas: pNumPais (int)
+    Salidas: listaPaises[pNumPais] (str)
+    """
     listaPaises = ["Belice", "Costa Rica", "El Salvador", 
     "Guatemala", "Honduras", "Nicaragua", "Panama"]
     return listaPaises[pNumPais]
 
 def retornarMetPagoStr(pNumMet):
+    """
+    Funcionalidad: retorna el método de pago por posición en la lista
+    Entradas: pNumMet (int)
+    Salidas: listaMetPago[pNumMet-1] (str)
+    """
     listaMetPago = ["Tarjeta de crédito internacional", "Tarjeta de débito internacional",
     "Pay Pal"]
     return listaMetPago[pNumMet-1]
@@ -315,7 +332,7 @@ def retornarMetPagoStr(pNumMet):
 def reporteCasilleros(pUsuarios):
     """
     Funcionalidad: crea el archivo HTML con la información de los usuarios (sus casilleros)
-    Entradas: pUsuarios
+    Entradas: pUsuarios (list)
     Salidas: resultado crearArchivoHtml("Reporte casilleros AeroTEC", strTabla) (HTML file)
     """
     strTabla = "<html>\n<head>\n<title> \nCasilleros AeroTEC \n\
